@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudio Taylor | Ingeniería Industrial Farmacéutica</title>
+<meta name="description" content="Estudio Taylor - 30 años construyendo la industria farmacéutica. Proyecto, dirección y construcción integral llave en mano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* === VARIABLES === */
+:root {
+  --navy-dark:   #0F1E35;
+  --navy-main:   #1B2A4A;
+  --navy-mid:    #243755;
+  --gray-medium: #6B7280;
+  --gray-light:  #9CA3AF;
+  --gray-bg:     #F3F4F6;
+  --gray-border: #E5E7EB;
+  --white:       #FFFFFF;
+  --accent:      #2563EB;
+  --wa-green:    #25D366;
+}
+
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Montserrat', sans-serif; color: var(--navy-dark); background: var(--white); overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; }
+ul { list-style: none; }
+
+/* === UTILITY === */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+.section-header { text-align: center; margin-bottom: 3rem; }
+.section-header.left { text-align: left; }
+.section-header.left .section-title::after { margin: 0.5rem 0 0; }
+
+.section-title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  color: var(--navy-main);
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: var(--navy-main);
+  margin: 0.5rem auto 0;
+}
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--gray-medium);
+  max-width: 640px;
+  margin: 0.75rem auto 0;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* === REVEAL === */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === HEADER === */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+}
+.header.scrolled {
+  background: var(--navy-main);
+  padding: 0.6rem 0;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.header-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.logo-text {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--white);
+  letter-spacing: 1.8px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.nav { display: flex; align-items: center; gap: 0.125rem; }
+.nav a {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav a:hover { color: var(--white); background: rgba(255,255,255,0.09); }
+.header-wa {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--wa-green);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.header-wa:hover { background: #1ebe59; transform: translateY(-1px); }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 1001;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* === MOBILE NAV === */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--navy-dark);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  color: var(--white);
+  font-size: 1.375rem;
+  font-weight: 600;
+  padding: 0.25rem 0;
+  transition: color 0.2s;
+}
+.mobile-nav a:hover { color: var(--gray-light); }
+.mobile-wa {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--wa-green) !important;
+  border-radius: 50px;
+  padding: 0.75rem 2rem !important;
+  font-size: 1rem !important;
+  margin-top: 0.5rem;
+}
+.mobile-wa:hover { background: #1ebe59 !important; }
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  background: var(--navy-dark);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+.hero-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 740px;
+  padding: 4rem 1.5rem 4rem;
+  margin: 0 auto 0 max(1.5rem, calc((100vw - 1200px) / 2 + 1.5rem));
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: heroIn 0.75s ease 0.2s forwards;
+}
+.hero p {
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  font-weight: 300;
+  color: var(--gray-light);
+  line-height: 1.8;
+  margin-bottom: 2.25rem;
+  max-width: 580px;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: heroIn 0.75s ease 0.4s forwards;
+}
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: heroIn 0.75s ease 0.6s forwards;
+}
+@keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--wa-green);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 50px;
+  transition: background 0.2s, transform 0.15s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #1ebe59; transform: translateY(-2px); }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 50px;
+  border: 2px solid rgba(255,255,255,0.45);
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+/* === EMPRESA === */
+.empresa { padding: 6rem 0; background: var(--white); }
+.empresa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+.empresa-text p {
+  color: var(--gray-medium);
+  line-height: 1.85;
+  font-size: 0.9875rem;
+  margin-bottom: 1rem;
+}
+.empresa-img {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(15,30,53,0.15);
+}
+.empresa-img img { width: 100%; height: 420px; object-fit: cover; }
+.valores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.valor-card {
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-left: 3px solid var(--navy-main);
+  border-radius: 6px;
+  padding: 1.75rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.valor-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(15,30,53,0.1); }
+.valor-icon { margin-bottom: 1rem; }
+.valor-card h3 { font-size: 0.9375rem; font-weight: 700; color: var(--navy-main); margin-bottom: 0.375rem; }
+.valor-card p { font-size: 0.84375rem; color: var(--gray-medium); line-height: 1.65; }
+
+/* === SERVICIOS === */
+.servicios { padding: 6rem 0; background: var(--gray-bg); }
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.servicio-card {
+  background: var(--white);
+  border-radius: 8px;
+  padding: 2rem;
+  border-top: 3px solid transparent;
+  box-shadow: 0 2px 12px rgba(15,30,53,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-top-color 0.25s ease;
+}
+.servicio-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(15,30,53,0.12);
+  border-top-color: var(--accent);
+}
+.servicio-icon { margin-bottom: 1.25rem; }
+.servicio-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy-main); margin-bottom: 0.625rem; }
+.servicio-card p { font-size: 0.875rem; color: var(--gray-medium); line-height: 1.75; }
+
+/* === OBRAS === */
+.obras { padding: 6rem 0; background: var(--white); }
+.obras-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+.obras-tab {
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.84375rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid var(--gray-border);
+  background: transparent;
+  color: var(--gray-medium);
+  transition: all 0.2s;
+}
+.obras-tab.active, .obras-tab:hover {
+  background: var(--navy-main);
+  border-color: var(--navy-main);
+  color: var(--white);
+}
+.obras-gallery {
+  columns: 3;
+  column-gap: 1rem;
+}
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  cursor: zoom-in;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.gallery-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+.gallery-item:hover img { transform: scale(1.04); filter: brightness(0.82); }
+.gallery-item.hidden { display: none; }
+
+/* === LIGHTBOX === */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,30,53,0.95);
+  z-index: 9998;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 6px;
+  object-fit: contain;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+}
+.lightbox-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.2); }
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.375rem;
+  transition: background 0.2s;
+}
+.lightbox-arrow:hover { background: rgba(255,255,255,0.22); }
+.lightbox-prev { left: 1.5rem; }
+.lightbox-next { right: 1.5rem; }
+
+/* === CLIENTES === */
+.clientes { padding: 5rem 0; background: var(--gray-bg); overflow: hidden; }
+.carousel-wrapper { overflow: hidden; width: 100%; padding: 1rem 0; }
+.carousel-track {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  animation: scroll-left 35s linear infinite;
+  width: max-content;
+}
+.carousel-track:hover { animation-play-state: paused; }
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.cliente-logo {
+  flex-shrink: 0;
+  height: 60px;
+  max-width: 140px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.55);
+  transition: filter 0.3s ease;
+}
+.cliente-logo:hover { filter: grayscale(0%) opacity(1); }
+
+/* === CONTACTO === */
+.contacto { padding: 6rem 0; background: var(--navy-main); }
+.contacto .section-title { color: var(--white); }
+.contacto .section-title::after { background: var(--accent); }
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.form-group { margin-bottom: 1.125rem; }
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,0.45); }
+.form-group input:focus,
+.form-group textarea:focus { border-color: rgba(255,255,255,0.75); }
+.form-group textarea { min-height: 130px; }
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: var(--wa-green);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.btn-submit:hover { background: #1ebe59; transform: translateY(-2px); }
+.contacto-info h3 {
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1.25rem;
+}
+.contacto-info p {
+  color: rgba(255,255,255,0.65);
+  line-height: 1.75;
+  font-size: 0.9375rem;
+}
+.wa-direct {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  color: rgba(255,255,255,0.9);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.btn-wa-big {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: var(--wa-green);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.15s;
+  margin-bottom: 1.25rem;
+}
+.btn-wa-big:hover { background: #1ebe59; transform: translateY(-2px); }
+
+/* === FOOTER === */
+.footer {
+  background: var(--navy-dark);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 2.5rem 0;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; }
+.footer-logo .logo-text { color: var(--white); font-size: 12px; letter-spacing: 1.8px; }
+.footer-nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-nav a {
+  color: var(--gray-light);
+  font-size: 0.84375rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.footer-nav a:hover { color: var(--white); }
+.footer-copy { color: var(--gray-medium); font-size: 0.8125rem; }
+
+/* === FLOATING WHATSAPP === */
+.wa-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--wa-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.45);
+  animation: pulse-wa 2.5s infinite;
+  cursor: pointer;
+  position: fixed;
+}
+.wa-float:hover { animation-play-state: paused; }
+.wa-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  background: var(--navy-dark);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0.4rem 0.85rem;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.wa-float:hover .wa-tooltip { opacity: 1; }
+@keyframes pulse-wa {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 16px rgba(37,211,102,0.45); }
+  50%       { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,0.65); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .servicios-grid { grid-template-columns: repeat(2, 1fr); }
+  .obras-gallery { columns: 2; }
+}
+@media (max-width: 768px) {
+  .nav, .header-wa { display: none; }
+  .hamburger { display: flex; }
+  .empresa-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .empresa-img { order: -1; }
+  .empresa-img img { height: 280px; }
+  .valores-grid { grid-template-columns: 1fr; }
+  .contacto-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-nav { justify-content: center; }
+  .hero-content { margin: 0; }
+}
+@media (max-width: 540px) {
+  .servicios-grid { grid-template-columns: 1fr; }
+  .obras-gallery { columns: 1; }
+  .hero-buttons { flex-direction: column; align-items: flex-start; }
+  .btn-primary, .btn-outline { justify-content: center; }
+  .lightbox-prev { left: 0.5rem; }
+  .lightbox-next { right: 0.5rem; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- === WHATSAPP FLOTANTE === -->
+<a href="https://wa.me/5491144710959?text=Hola%20Estudio%20Taylor%2C%20me%20contacto%20desde%20su%20sitio%20web." class="wa-float" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <span class="wa-tooltip">Escribinos por WhatsApp</span>
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- === HEADER === -->
+<header class="header" id="header">
+  <div class="header-inner">
+
+    <a href="#inicio" class="header-logo" aria-label="Estudio Taylor">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="5,3 29,3 32,6 32,13 20,13 20,31 14,31 14,13 2,13 2,6" fill="#2563EB"/>
+      </svg>
+      <span class="logo-text">ESTUDIO TAYLOR</span>
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#empresa">Empresa</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#obras">Obras</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <a href="https://wa.me/5491144710959?text=Hola%20Estudio%20Taylor%2C%20me%20contacto%20desde%20su%20sitio%20web." class="header-wa" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+<!-- === MOBILE NAV === -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Navegación mobile">
+  <a href="#inicio" class="mobile-link">Inicio</a>
+  <a href="#empresa" class="mobile-link">Empresa</a>
+  <a href="#servicios" class="mobile-link">Servicios</a>
+  <a href="#obras" class="mobile-link">Obras</a>
+  <a href="#clientes" class="mobile-link">Clientes</a>
+  <a href="#contacto" class="mobile-link">Contacto</a>
+  <a href="https://wa.me/5491144710959?text=Hola%20Estudio%20Taylor%2C%20me%20contacto%20desde%20su%20sitio%20web." class="mobile-link mobile-wa" target="_blank" rel="noopener">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp
+  </a>
+</nav>
+
+<!-- === HERO === -->
+<section class="hero" id="inicio">
+  <div class="hero-dots" aria-hidden="true"></div>
+  <svg class="hero-lines" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <line x1="0" y1="220" x2="480" y2="700" stroke="white" stroke-width="1"/>
+    <line x1="180" y1="0" x2="660" y2="480" stroke="white" stroke-width="1"/>
+    <line x1="960" y1="0" x2="1440" y2="380" stroke="white" stroke-width="0.8"/>
+    <line x1="780" y1="900" x2="1440" y2="280" stroke="white" stroke-width="0.8"/>
+    <line x1="380" y1="820" x2="1180" y2="80" stroke="white" stroke-width="0.6"/>
+    <rect x="1080" y="80" width="180" height="180" stroke="white" stroke-width="0.6" fill="none" transform="rotate(45 1170 170)"/>
+    <circle cx="1280" cy="580" r="140" stroke="white" stroke-width="0.6" fill="none"/>
+    <line x1="100" y1="600" x2="400" y2="300" stroke="white" stroke-width="0.5"/>
+  </svg>
+  <div class="hero-content">
+    <h1>30 años construyendo la industria farmacéutica</h1>
+    <p>Proyecto, dirección y construcción integral para la industria farmacéutica, biotecnológica y centros de procesamiento de datos. Ejecutamos según normas nacionales e internacionales.</p>
+    <div class="hero-buttons">
+      <a href="https://wa.me/5491144710959?text=Hola%20Estudio%20Taylor%2C%20me%20contacto%20desde%20su%20sitio%20web." class="btn-primary" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Consultar por WhatsApp
+      </a>
+      <a href="#servicios" class="btn-outline">Ver nuestros servicios</a>
+    </div>
+  </div>
+</section>
+
+<!-- === EMPRESA === -->
+<section class="empresa" id="empresa">
+  <div class="container">
+    <div class="empresa-grid reveal">
+      <div class="empresa-text">
+        <div class="section-header left" style="margin-bottom:1.5rem;">
+          <h2 class="section-title">Nuestra Empresa</h2>
+        </div>
+        <p>Estudio Taylor nació de una vasta trayectoria en la industria farmacéutica, lo que nos permite brindar un enfoque global en la labor profesional: desde la realización del proyecto en forma integral hasta la construcción de la obra llave en mano.</p>
+        <p>Continuamos el camino iniciado hace más de 30 años, acompañando a nuestros clientes en su crecimiento e innovaciones, manteniendo los máximos estándares de calidad.</p>
+      </div>
+      <div class="empresa-img">
+        <img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/06/DSC02320-1067x800.jpg" alt="Instalaciones industriales farmacéuticas - Estudio Taylor" loading="lazy">
+      </div>
+    </div>
+
+    <div class="valores-grid">
+      <div class="valor-card reveal">
+        <div class="valor-icon" aria-hidden="true">
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="21" cy="21" r="19" stroke="#1B2A4A" stroke-width="1.5"/>
+            <text x="21" y="18" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="800" font-size="10" fill="#1B2A4A">30+</text>
+            <text x="21" y="28" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="500" font-size="6.5" fill="#6B7280">AÑOS</text>
+          </svg>
+        </div>
+        <h3>Más de 30 años de experiencia</h3>
+        <p>Décadas de trayectoria en ingeniería industrial farmacéutica nos respaldan en cada proyecto.</p>
+      </div>
+      <div class="valor-card reveal">
+        <div class="valor-icon" aria-hidden="true">
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="5" width="32" height="32" rx="3" stroke="#1B2A4A" stroke-width="1.5"/>
+            <polyline points="11,21 18,28 31,15" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Normas nacionales e internacionales</h3>
+        <p>Cumplimiento riguroso de GMP, FDA y ANMAT en cada etapa del proyecto y la construcción.</p>
+      </div>
+      <div class="valor-card reveal">
+        <div class="valor-icon" aria-hidden="true">
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 4L38 14V28L21 38L4 28V14Z" stroke="#1B2A4A" stroke-width="1.5" fill="none"/>
+            <circle cx="21" cy="21" r="5" fill="#2563EB" opacity="0.9"/>
+            <line x1="21" y1="16" x2="21" y2="4" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <line x1="21" y1="26" x2="21" y2="38" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <line x1="26" y1="21" x2="38" y2="14" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <line x1="16" y1="21" x2="4" y2="28" stroke="#2563EB" stroke-width="1.2" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <h3>Proyecto integral llave en mano</h3>
+        <p>Una sola empresa para todo el proceso: proyecto, dirección y entrega lista para operar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === SERVICIOS === -->
+<section class="servicios" id="servicios">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Nuestros Servicios</h2>
+      <p class="section-subtitle">Ofrecemos un servicio integral dirigido a la industria en general, en particular a la Farmacéutica (tradicional y biotecnológica) y Centros de Procesamiento de Datos.</p>
+    </div>
+    <div class="servicios-grid">
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icon" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="10" width="26" height="28" rx="2" stroke="#1B2A4A" stroke-width="1.8"/>
+            <line x1="6" y1="16" x2="32" y2="16" stroke="#1B2A4A" stroke-width="1.3"/>
+            <line x1="12" y1="22" x2="26" y2="22" stroke="#2563EB" stroke-width="1.4"/>
+            <line x1="12" y1="27" x2="22" y2="27" stroke="#2563EB" stroke-width="1.4"/>
+            <line x1="12" y1="32" x2="24" y2="32" stroke="#2563EB" stroke-width="1.4"/>
+            <line x1="37" y1="4" x2="40" y2="4" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="4" x2="40" y2="20" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+            <line x1="37" y1="20" x2="43" y2="20" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Estudios de Factibilidad</h3>
+        <p>Análisis integral de viabilidad técnica y económica previo al inicio de cada proyecto.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icon" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="28" height="38" rx="2" stroke="#1B2A4A" stroke-width="1.8"/>
+            <rect x="8" y="8" width="20" height="13" rx="1" stroke="#2563EB" stroke-width="1.5"/>
+            <line x1="8" y1="26" x2="28" y2="26" stroke="#6B7280" stroke-width="1.2"/>
+            <line x1="8" y1="31" x2="24" y2="31" stroke="#6B7280" stroke-width="1.2"/>
+            <line x1="8" y1="36" x2="20" y2="36" stroke="#6B7280" stroke-width="1.2"/>
+            <line x1="38" y1="4" x2="42" y2="4" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="4" x2="40" y2="22" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+            <line x1="36" y1="22" x2="44" y2="22" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Proyecto Integral</h3>
+        <p>Desarrollo completo de proyectos ejecutivos bajo normas GMP, FDA y ANMAT para industria farmacéutica.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icon" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 28 L23 14 L41 28 L41 42 L5 42 Z" stroke="#1B2A4A" stroke-width="1.8" fill="none"/>
+            <rect x="18" y="30" width="10" height="12" stroke="#2563EB" stroke-width="1.6"/>
+            <path d="M1 30 L23 14 L45 30" stroke="#1B2A4A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M30 8 C30 5 35 4 37 7 C39 4 44 5 44 8 C44 13 37 17 37 17 C37 17 30 13 30 8Z" fill="#2563EB" opacity="0.85"/>
+          </svg>
+        </div>
+        <h3>Dirección de Obra</h3>
+        <p>Supervisión y conducción técnica durante todas las etapas de la construcción.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icon" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="20" width="36" height="24" rx="2" stroke="#1B2A4A" stroke-width="1.8"/>
+            <path d="M12 20 L12 14 L23 6 L34 14 L34 20" stroke="#2563EB" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+            <rect x="18" y="28" width="10" height="16" stroke="#2563EB" stroke-width="1.5"/>
+            <rect x="9" y="26" width="7" height="7" rx="1" stroke="#6B7280" stroke-width="1.2"/>
+            <rect x="30" y="26" width="7" height="7" rx="1" stroke="#6B7280" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <h3>Construcción Llave en Mano</h3>
+        <p>Entrega de instalaciones completamente terminadas y validadas, listas para operar.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icon" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="8" width="36" height="9" rx="2" stroke="#1B2A4A" stroke-width="1.8"/>
+            <rect x="5" y="21" width="36" height="9" rx="2" stroke="#2563EB" stroke-width="1.8"/>
+            <rect x="5" y="34" width="36" height="7" rx="2" stroke="#1B2A4A" stroke-width="1.5"/>
+            <circle cx="37" cy="12.5" r="2.5" fill="#2563EB"/>
+            <circle cx="37" cy="25.5" r="2.5" fill="#1B2A4A"/>
+            <line x1="23" y1="17" x2="23" y2="21" stroke="#9CA3AF" stroke-width="1.2"/>
+            <line x1="23" y1="30" x2="23" y2="34" stroke="#9CA3AF" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <h3>Centros de Procesamiento de Datos</h3>
+        <p>Diseño y construcción de data centers con infraestructura crítica de alta disponibilidad.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icon" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23 5 C23 5 15 10 15 20 C15 27 18 31 23 34 C28 31 31 27 31 20 C31 10 23 5 23 5Z" stroke="#2563EB" stroke-width="1.8" fill="none"/>
+            <line x1="19" y1="20" x2="27" y2="20" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="23" y1="15" x2="23" y2="25" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M15 24 L8 34 L13 36 L19 28" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M31 24 L38 34 L33 36 L27 28" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="14" y="36" width="18" height="6" rx="2" stroke="#2563EB" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Industria Biotecnológica</h3>
+        <p>Especialización en plantas de producción biotecnológica con los más altos estándares regulatorios.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- === OBRAS === -->
+<section class="obras" id="obras">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Nuestras Obras</h2>
+    </div>
+    <div class="obras-tabs reveal" role="group" aria-label="Filtrar obras">
+      <button class="obras-tab active" data-filter="all">Todos</button>
+      <button class="obras-tab" data-filter="farmaceutico">Laboratorios Farmacéuticos</button>
+      <button class="obras-tab" data-filter="datos">Centros de Datos</button>
+      <button class="obras-tab" data-filter="oficinas">Oficinas Corporativas</button>
+    </div>
+    <div class="obras-gallery" id="gallery">
+
+      <!-- Laboratorios Farmacéuticos -->
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/DSC03953-AGREGAR.jpg" alt="Laboratorio farmacéutico" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/IMG_20190219_133801343-AGREGAR.jpg" alt="Instalación industrial farmacéutica" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/IMG-20160802-WA0016-AGREGAR-.jpg" alt="Planta farmacéutica en construcción" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/OPCION-1.jpg" alt="Sala limpia farmacéutica" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/03-zelltek-4-gema-1347x800.jpg" alt="Zelltek - planta biotecnológica Gema" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/04-ZELLTEK1-OBRA-09-1255x800.jpg" alt="Zelltek 1 - obra en construcción" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/05-Planta-Actual-Zelltek1-1278x800.jpg" alt="Zelltek 1 - planta actual" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/06-ZELLTEK4-01-1279x800.jpg" alt="Zelltek 4 - instalaciones" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/07-ZELLTEK-1-VISTA-1299x800.jpg" alt="Zelltek 1 - vista exterior" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/11-ZELLTEK1-05-INTERIOR.jpg" alt="Zelltek 1 - interior laboratorio" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/13-ZELLTEK1-11-INTERIOR.jpg" alt="Zelltek 1 - sala interior" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/14-DSC03755-1354x800.jpg" alt="Planta industrial farmacéutica" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/02-FACHADA-B-1-1400x747.jpg" alt="Fachada edificio farmacéutico" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/02-FACHADA-B-2-1400x747.jpg" alt="Fachada edificio industrial" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/LIF-02.jpg" alt="LIF - laboratorio farmacéutico" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/LIF-01.jpg" alt="LIF - instalaciones interiores" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/FACHADA.jpg" alt="Fachada planta farmacéutica" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/Piso-técnico_1.jpg" alt="Piso técnico instalación farmacéutica" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/08/Piso-Técnico_2.jpg" alt="Piso técnico detalle constructivo" loading="lazy"></div>
+      <div class="gallery-item" data-category="farmaceutico"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/DSC02586-AGREGAR.jpg" alt="Laboratorio de especialidades medicinales" loading="lazy"></div>
+
+      <!-- Centros de Datos -->
+      <div class="gallery-item" data-category="datos"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/IMG_5275.JPG-NUEVA.jpg" alt="Centro de procesamiento de datos - vista general" loading="lazy"></div>
+      <div class="gallery-item" data-category="datos"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/IMG_5277.JPG-NUEVA.jpg" alt="Data center - sala de servidores" loading="lazy"></div>
+      <div class="gallery-item" data-category="datos"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/IMG_5432-NUEVA.jpg" alt="Data center - infraestructura crítica" loading="lazy"></div>
+      <div class="gallery-item" data-category="datos"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/IMG_5433-NUEVA.jpg" alt="Centro de datos - instalación eléctrica" loading="lazy"></div>
+
+      <!-- Oficinas Corporativas -->
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/02-AUSTRAL.jpg" alt="Oficinas corporativas Austral" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/03-AUSTRAL.jpg" alt="Oficinas corporativas - recepción" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/04-AUSTRAL.jpg" alt="Oficinas corporativas - sala de reuniones" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/05-AUSTRAL-GEMA.jpg" alt="Austral Gema - oficinas corporativas" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/06-AUSTRAL-GEMA.jpg" alt="Austral Gema - espacios de trabajo" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/07-AUSTRAL-GEMA.jpg" alt="Austral Gema - área ejecutiva" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/08-AUSTRAL-GEMA.jpg" alt="Austral Gema - planta de oficinas" loading="lazy"></div>
+      <div class="gallery-item" data-category="oficinas"><img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/07/10-AUSTRAL-GEMA.jpg" alt="Austral Gema - espacios corporativos" loading="lazy"></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- === LIGHTBOX === -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galería de imágenes">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">&#x2715;</button>
+  <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Imagen anterior">&#8592;</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="Obra Estudio Taylor">
+  <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Imagen siguiente">&#8594;</button>
+</div>
+
+<!-- === CLIENTES === -->
+<section class="clientes" id="clientes">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Empresas que confían en nosotros</h2>
+      <p class="section-subtitle">+30 clientes en la industria farmacéutica y tecnológica</p>
+    </div>
+  </div>
+  <div class="carousel-wrapper" aria-label="Carrusel de clientes">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- Primera pasada -->
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/18-GEMA-BIOTECH.jpg" alt="Gema Biotech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/35-ZELLTEK.jpg" alt="Zelltek" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/9-AMEGA-BIOTECH-SACAR-TEXTO-DE-ABAJO.jpg" alt="Amega Biotech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/4-Centurylink.jpg" alt="CenturyLink" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/11-CASASCO.jpg" alt="Casasco" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/24-KEMEX.png" alt="Kemex" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/33-RICHET.jpg" alt="Richet" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/21-LIF-EN-JPG.jpg" alt="LIF" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/28-POEN.png" alt="Poen" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/1.1-BIOSIDUS.jpeg" alt="Biosidus" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/2-LABORATORIO-BERNAB%C3%93.jpg" alt="Laboratorio Bernabó" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/3.2-BAYER-EN-PNG.jpg" alt="Bayer" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/5-logo-agrofina-800x800.jpg" alt="Agrofina" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/6-rizo-logo-1.jpg" alt="Rizo" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/8-ATANOR.jpg" alt="Atanor" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/12-CREAMSE-800x800.jpg" alt="Creamse" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/16-ERIOCHEM.jpg" alt="Eriochem" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/17-FAPASA-SACAR-TEXTO-DE-ABAJO.jpg" alt="Fapasa" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/19-GRIFOLIS.jpg" alt="Grifols" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/22-LASA-EN-PNG.png" alt="LASA" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/23-KLONAL-SACAR-TEXTO-DE-ABAJO.png" alt="Klonal" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/26-NIALTEC.png" alt="Nialtec" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/27-NORTHIA.jpg" alt="Northia" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/29-PANPHARMA.png" alt="Panpharma" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/14-DANONE-EN-PNG.jpg" alt="Danone" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/30-SINERGIUM-BIOTECH.png" alt="Sinergium Biotech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/31-ROEMMERS.jpg" alt="Roemmers" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/34-UNL.jpg" alt="UNL" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/36-COMPLET-AGRO.png" alt="Complet Agro" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/20-LIPO-TECH-S.A..jpg" alt="Lipo Tech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/10-CABLEVISION-MULTICANAL-2-800x800.jpg" alt="Cablevision" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/PRUEBA-DELTABIOTECH.jpg" alt="Delta Biotech" loading="lazy">
+      <!-- Segunda pasada (duplicado para loop infinito) -->
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/18-GEMA-BIOTECH.jpg" alt="Gema Biotech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/35-ZELLTEK.jpg" alt="Zelltek" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/9-AMEGA-BIOTECH-SACAR-TEXTO-DE-ABAJO.jpg" alt="Amega Biotech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/4-Centurylink.jpg" alt="CenturyLink" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/11-CASASCO.jpg" alt="Casasco" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/24-KEMEX.png" alt="Kemex" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/33-RICHET.jpg" alt="Richet" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/21-LIF-EN-JPG.jpg" alt="LIF" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/28-POEN.png" alt="Poen" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/1.1-BIOSIDUS.jpeg" alt="Biosidus" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/2-LABORATORIO-BERNAB%C3%93.jpg" alt="Laboratorio Bernabó" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/3.2-BAYER-EN-PNG.jpg" alt="Bayer" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/5-logo-agrofina-800x800.jpg" alt="Agrofina" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/6-rizo-logo-1.jpg" alt="Rizo" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/8-ATANOR.jpg" alt="Atanor" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/12-CREAMSE-800x800.jpg" alt="Creamse" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/16-ERIOCHEM.jpg" alt="Eriochem" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/17-FAPASA-SACAR-TEXTO-DE-ABAJO.jpg" alt="Fapasa" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/19-GRIFOLIS.jpg" alt="Grifols" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/22-LASA-EN-PNG.png" alt="LASA" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/23-KLONAL-SACAR-TEXTO-DE-ABAJO.png" alt="Klonal" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/26-NIALTEC.png" alt="Nialtec" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/27-NORTHIA.jpg" alt="Northia" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/29-PANPHARMA.png" alt="Panpharma" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/14-DANONE-EN-PNG.jpg" alt="Danone" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/30-SINERGIUM-BIOTECH.png" alt="Sinergium Biotech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/31-ROEMMERS.jpg" alt="Roemmers" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/34-UNL.jpg" alt="UNL" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/36-COMPLET-AGRO.png" alt="Complet Agro" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/20-LIPO-TECH-S.A..jpg" alt="Lipo Tech" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/10-CABLEVISION-MULTICANAL-2-800x800.jpg" alt="Cablevision" loading="lazy">
+      <img class="cliente-logo" src="https://www.raposeirastaylor.com/wp-content/uploads/2019/10/PRUEBA-DELTABIOTECH.jpg" alt="Delta Biotech" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- === CONTACTO === -->
+<section class="contacto" id="contacto">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Contacto</h2>
+    </div>
+    <div class="contacto-grid">
+
+      <div class="reveal">
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <input type="text" id="fname" name="nombre" placeholder="Nombre completo" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <input type="email" id="femail" name="email" placeholder="Email" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <input type="text" id="fempresa" name="empresa" placeholder="Empresa" autocomplete="organization">
+          </div>
+          <div class="form-group">
+            <textarea id="fmensaje" name="mensaje" placeholder="Mensaje" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enviar por WhatsApp
+          </button>
+        </form>
+      </div>
+
+      <div class="contacto-info reveal">
+        <div class="wa-direct">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span>Escribinos directamente</span>
+        </div>
+        <a href="https://wa.me/5491144710959?text=Hola%20Estudio%20Taylor%2C%20me%20contacto%20desde%20su%20sitio%20web." class="btn-wa-big" target="_blank" rel="noopener">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Abrir WhatsApp
+        </a>
+        <p>También podés enviarnos un mensaje y te respondemos a la brevedad.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- === FOOTER === -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="#inicio" class="footer-logo" aria-label="Estudio Taylor">
+      <svg width="32" height="32" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="5,3 29,3 32,6 32,13 20,13 20,31 14,31 14,13 2,13 2,6" fill="#2563EB"/>
+      </svg>
+      <span class="logo-text">ESTUDIO TAYLOR</span>
+    </a>
+    <nav class="footer-nav" aria-label="Navegación footer">
+      <a href="#empresa">Empresa</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#obras">Obras</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <p class="footer-copy">© 2025 Estudio Taylor. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script>
+
+/* === HEADER SCROLL === */
+const header = document.getElementById('header');
+window.addEventListener('scroll', function() {
+  header.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+
+/* === HAMBURGER MENU === */
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+
+hamburger.addEventListener('click', function() {
+  const isOpen = mobileNav.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+document.querySelectorAll('.mobile-link').forEach(function(link) {
+  link.addEventListener('click', function() {
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  });
+});
+
+/* === SCROLL REVEAL === */
+const revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var delay = parseInt(entry.target.dataset.delay) || 0;
+      setTimeout(function() {
+        entry.target.classList.add('visible');
+      }, delay);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(function(el, i) {
+  el.dataset.delay = (i % 4) * 100;
+  revealObserver.observe(el);
+});
+
+/* === OBRAS FILTER === */
+const tabs = document.querySelectorAll('.obras-tab');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+tabs.forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    var filter = tab.dataset.filter;
+    galleryItems.forEach(function(item) {
+      if (filter === 'all' || item.dataset.category === filter) {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+  });
+});
+
+/* === LIGHTBOX === */
+var lightbox     = document.getElementById('lightbox');
+var lightboxImg  = document.getElementById('lightboxImg');
+var lightboxClose= document.getElementById('lightboxClose');
+var lightboxPrev = document.getElementById('lightboxPrev');
+var lightboxNext = document.getElementById('lightboxNext');
+var currentIdx   = 0;
+
+function getVisible() {
+  return Array.from(galleryItems).filter(function(item) {
+    return !item.classList.contains('hidden');
+  });
+}
+
+function openLightbox(idx) {
+  var visible = getVisible();
+  currentIdx = idx;
+  var img = visible[currentIdx].querySelector('img');
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+
+function navigate(dir) {
+  var visible = getVisible();
+  currentIdx = (currentIdx + dir + visible.length) % visible.length;
+  var img = visible[currentIdx].querySelector('img');
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+}
+
+galleryItems.forEach(function(item) {
+  item.addEventListener('click', function() {
+    var visible = getVisible();
+    var idx = visible.indexOf(item);
+    if (idx !== -1) openLightbox(idx);
+  });
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxPrev.addEventListener('click', function() { navigate(-1); });
+lightboxNext.addEventListener('click', function() { navigate(1); });
+lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener('keydown', function(e) {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape')      closeLightbox();
+  if (e.key === 'ArrowLeft')   navigate(-1);
+  if (e.key === 'ArrowRight')  navigate(1);
+});
+
+/* === CONTACT FORM → WHATSAPP === */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var nombre  = document.getElementById('fname').value.trim();
+  var email   = document.getElementById('femail').value.trim();
+  var empresa = document.getElementById('fempresa').value.trim();
+  var mensaje = document.getElementById('fmensaje').value.trim();
+  if (!nombre || !email || !mensaje) {
+    alert('Por favor completá los campos obligatorios: nombre, email y mensaje.');
+    return;
+  }
+  var empresaStr = empresa ? ', soy de ' + empresa : '';
+  var text = 'Hola Estudio Taylor, mi nombre es ' + nombre + empresaStr + '. ' + mensaje + '. Contacto: ' + email;
+  var url = 'https://wa.me/5491144710959?text=' + encodeURIComponent(text);
+  window.open(url, '_blank', 'noopener');
+});
+
+</script>
+</body>
+</html>

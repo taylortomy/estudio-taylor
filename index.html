@@ -681,12 +681,12 @@ ul { list-style: none; }
   <div class="header-inner">
 
     <a href="#inicio" class="header-logo" aria-label="Estudio Taylor">
-      <div style="display:flex; align-items:center; gap:12px;">
+      <div style="display:flex; align-items:center; gap:14px;">
         <img src="logo v2.png" alt="Estudio Taylor"
-          style="height:55px; filter: brightness(0) invert(1);">
+          style="height:50px; width:auto; mix-blend-mode:multiply;">
         <span style="font-family:Montserrat,sans-serif; font-weight:700;
-          font-size:18px; color:#ffffff; letter-spacing:1px; line-height:1.2;">
-          ESTUDIO<br>TAYLOR
+          font-size:20px; color:#ffffff; letter-spacing:2px; white-space:nowrap;">
+          ESTUDIO TAYLOR
         </span>
       </div>
     </a>
@@ -750,13 +750,15 @@ ul { list-style: none; }
       <a href="#servicios" class="btn-outline" style="padding:14px 32px; background:transparent; border:2px solid #0F1E35; color:#0F1E35;">Ver nuestros servicios</a>
     </div>
   </div>
-  <div onclick="document.querySelector('#empresa').scrollIntoView({behavior:'smooth'})"
+  <div onclick="document.querySelectorAll('section')[1].scrollIntoView({behavior:'smooth'})"
     style="position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
     text-align:center; color:#0F1E35; cursor:pointer; z-index:10;">
-    <p style="font-family:Montserrat,sans-serif; font-size:11px; letter-spacing:3px;
-    text-transform:uppercase; margin-bottom:8px;">Deslizá</p>
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-    stroke-width="2" style="animation:bounce 2s infinite; display:block; margin:0 auto;">
+    <p style="font-family:Montserrat,sans-serif; font-size:11px;
+    font-weight:600; letter-spacing:3px; text-transform:uppercase;
+    margin:0 0 8px 0;">Deslizá</p>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+    stroke="#0F1E35" stroke-width="2.5"
+    style="animation:bounce 2s infinite; display:block; margin:0 auto;">
       <path d="M12 5v14M5 12l7 7 7-7"/>
     </svg>
   </div>

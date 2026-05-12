@@ -190,7 +190,7 @@ ul { list-style: none; }
 /* === HERO === */
 .hero {
   min-height: 100vh;
-  background: var(--navy-dark);
+  background: linear-gradient(rgba(15,30,53,0.75), rgba(15,30,53,0.82)), url('frontpage.png') center/cover no-repeat;
   display: flex;
   align-items: center;
   position: relative;
@@ -249,6 +249,10 @@ ul { list-style: none; }
   animation: heroIn 0.75s ease 0.6s forwards;
 }
 @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
 
 .btn-primary {
   display: inline-flex;
@@ -469,10 +473,10 @@ ul { list-style: none; }
   max-width: 140px;
   width: auto;
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.55);
-  transition: filter 0.3s ease;
+  overflow: visible;
+  transition: transform 0.3s ease;
 }
-.cliente-logo:hover { filter: grayscale(0%) opacity(1); }
+.cliente-logo:hover { transform: scale(1.12); }
 
 /* === CONTACTO === */
 .contacto { padding: 6rem 0; background: var(--navy-main); }
@@ -672,10 +676,7 @@ ul { list-style: none; }
   <div class="header-inner">
 
     <a href="#inicio" class="header-logo" aria-label="Estudio Taylor">
-      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <polygon points="5,3 29,3 32,6 32,13 20,13 20,31 14,31 14,13 2,13 2,6" fill="#2563EB"/>
-      </svg>
-      <span class="logo-text">ESTUDIO TAYLOR</span>
+      <img src="logo v2.png" alt="Estudio Taylor" height="40" style="display:block;">
     </a>
 
     <nav class="nav" aria-label="Navegación principal">
@@ -727,8 +728,8 @@ ul { list-style: none; }
     <line x1="100" y1="600" x2="400" y2="300" stroke="white" stroke-width="0.5"/>
   </svg>
   <div class="hero-content">
-    <h1>30 años construyendo la industria farmacéutica</h1>
-    <p>Proyecto, dirección y construcción integral para la industria farmacéutica, biotecnológica y centros de procesamiento de datos. Ejecutamos según normas nacionales e internacionales.</p>
+    <h1>PROYECTO, DIRECCIÓN Y CONSTRUCCIÓN</h1>
+    <h2 style="font-size:1.4rem; font-weight:400; color:rgba(255,255,255,0.85); margin-top:12px;">Obras Farmacéuticas e Industriales</h2>
     <div class="hero-buttons">
       <a href="https://wa.me/5491144710959?text=Hola%20Estudio%20Taylor%2C%20me%20contacto%20desde%20su%20sitio%20web." class="btn-primary" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -736,6 +737,16 @@ ul { list-style: none; }
       </a>
       <a href="#servicios" class="btn-outline">Ver nuestros servicios</a>
     </div>
+  </div>
+  <div onclick="document.querySelector('#empresa').scrollIntoView({behavior:'smooth'})"
+    style="position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+    text-align:center; color:rgba(255,255,255,0.75); cursor:pointer; z-index:10;">
+    <p style="font-family:Montserrat,sans-serif; font-size:11px; letter-spacing:3px;
+    text-transform:uppercase; margin-bottom:8px;">Deslizá</p>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2" style="animation:bounce 2s infinite; display:block; margin:0 auto;">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
   </div>
 </section>
 
@@ -751,7 +762,7 @@ ul { list-style: none; }
         <p>Continuamos el camino iniciado hace más de 30 años, acompañando a nuestros clientes en su crecimiento e innovaciones, manteniendo los máximos estándares de calidad.</p>
       </div>
       <div class="empresa-img">
-        <img src="https://www.raposeirastaylor.com/wp-content/uploads/2019/06/DSC02320-1067x800.jpg" alt="Instalaciones industriales farmacéuticas - Estudio Taylor" loading="lazy">
+        <img src="nuestra empresa.png" alt="Instalaciones industriales farmacéuticas - Estudio Taylor" loading="lazy">
       </div>
     </div>
 
@@ -1093,10 +1104,7 @@ ul { list-style: none; }
 <footer class="footer">
   <div class="footer-inner">
     <a href="#inicio" class="footer-logo" aria-label="Estudio Taylor">
-      <svg width="32" height="32" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <polygon points="5,3 29,3 32,6 32,13 20,13 20,31 14,31 14,13 2,13 2,6" fill="#2563EB"/>
-      </svg>
-      <span class="logo-text">ESTUDIO TAYLOR</span>
+      <img src="logo v2.png" alt="Estudio Taylor" height="36" style="display:block; filter: brightness(0) invert(1);">
     </a>
     <nav class="footer-nav" aria-label="Navegación footer">
       <a href="#empresa">Empresa</a>
@@ -1105,7 +1113,7 @@ ul { list-style: none; }
       <a href="#clientes">Clientes</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <p class="footer-copy">© 2025 Estudio Taylor. Todos los derechos reservados.</p>
+    <p class="footer-copy">© 2025 Estudio Taylor. Todos los derechos reservados. | Términos y Condiciones | Sitio desarrollado por Tomás Taylor</p>
   </div>
 </footer>
 

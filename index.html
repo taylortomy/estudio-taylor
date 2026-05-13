@@ -653,13 +653,34 @@ ul { list-style: none; }
   .contacto-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .footer-inner { flex-direction: column; text-align: center; }
   .footer-nav { justify-content: center; }
-  .hero-content { margin: 0; }
+  /* hero mobile fix */
+  .hero-content {
+    margin: 0 auto;
+    padding: 5rem 1.25rem 4rem;
+    text-align: center;
+    align-items: center;
+  }
+  .hero-content h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 16px !important;
+  }
+  .hero-content h2 {
+    font-size: 1rem !important;
+    margin-bottom: 32px !important;
+    letter-spacing: 0.5px !important;
+  }
+  .hero-content > div {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 @media (max-width: 540px) {
   .servicios-grid { grid-template-columns: 1fr; }
   .obras-gallery { columns: 1; }
-  .hero-buttons { flex-direction: column; align-items: flex-start; }
-  .btn-primary, .btn-outline { justify-content: center; }
+  .hero-content h1 { font-size: 1.5rem !important; }
+  .hero-content > div { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-outline { justify-content: center; width: 100%; }
   .lightbox-prev { left: 0.5rem; }
   .lightbox-next { right: 0.5rem; }
 }
